@@ -1,0 +1,3 @@
+displayName = Legends
+author = Megazin
+version = 0.1
