@@ -1,32 +1,21 @@
 # This file will automatically update with entries for new content after a build and reload.
 # Please read https://github.com/tModLoader/tModLoader/wiki/Localization to learn more about localization and these files.
 
-Mods: {
-	Legends: {
-		Sunbeams: {
-			Sunbeams: {
-				DisplayName: Sunbeams
-				Tooltip: A powerful beam of sunlight. It can be used to craft powerful items
-			}
-		}
-
-		SunbeamSword: {
-			SunbeamSword: {
-				DisplayName: SunbeamSword
-				Tooltip: A powerful sword
-			}
-		}
-	}
-}
-
 Items: {
 	Sunbeams: {
 		DisplayName: Sunbeams
-		Tooltip: ""
+		Tooltip: A powerful beam of sunlight. It can be used to craft powerful items
 	}
 
 	SunbeamSword: {
 		DisplayName: Sunbeam Sword
-		Tooltip: ""
+		Tooltip: A powerful sword
+	}
+
+	SunbeamProjectile: {
+		DisplayName: Sunbeam Projectile
+		Tooltip: A powerful Projectile
 	}
 }
+
+Projectiles.SunbeamProjectile.DisplayName: Sunbeam Projectile
