@@ -26,7 +26,7 @@ namespace Legends.Content.Items
             Item.width = 16;    // Hitbox width from Bottom Center.
             Item.height = 16;   // Hitbox height from Bottom Center.
 
-            Item.value = Item.buyPrice(silver: 1); //Value of the Item 120 = Silver, Cooper: 20
+            Item.value = Item.buyPrice(silver: 5); //Value of the Item 120 = Silver, Cooper: 20
             Item.maxStack = 999;
 
             Item.rare = ItemRarityID.Blue;

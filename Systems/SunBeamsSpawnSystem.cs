@@ -16,7 +16,8 @@ namespace Legends.Systems
         // 1 em 3000 = aproximadamente 0,033%
         // 1 em 5000 = aproximadamente 0,02%
         // aumentar o numero deixa mais raro, e deminuir mais comun
-        private const int SpawnChance = 1;
+        // private const int SpawnChance = 1;   
+        private const int SpawnChance = 2000;
         
         // Quantos ticks entre cada tentativa de spawn.
         // 60 ticks = aproximadamente 1 segundo.
@@ -73,8 +74,8 @@ namespace Legends.Systems
             );
 
             Vector2 velocity = new Vector2(
-                Main.rand.NextFloat(-3f, 3f),
-                Main.rand.NextFloat(8f, 11f)
+                Main.rand.NextFloat(-2f, 2f),
+                Main.rand.NextFloat(3f, 5f)
             );
 
             // CRIA O ITEM

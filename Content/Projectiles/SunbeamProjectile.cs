@@ -17,11 +17,11 @@ namespace Legends.Content.Projectiles
             Projectile.height = 16;
 
             Projectile.friendly = false;
-            Projectile.hostile = true;
+            Projectile.hostile = false;
             Projectile.penetrate = -1;
 
 
-            Projectile.DamageType = DamageClass.Magic;
+            Projectile.damage = 1000;
             
             Projectile.timeLeft = 1200;
             Projectile.light = 0.5f;
@@ -33,7 +33,7 @@ namespace Legends.Content.Projectiles
 
         public override void AI()
         {
-            if (Projectile.velocity.Y < 12f)
+            if (Projectile.velocity.Y < 7f)
                 Projectile.velocity.Y += 0.05f;
 
             Lighting.AddLight(Projectile.Center, 1f, 0.9f, 0.4f);
