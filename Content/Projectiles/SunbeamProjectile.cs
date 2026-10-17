@@ -41,7 +41,18 @@ namespace Legends.Content.Projectiles
             //rastro
             if (Main.rand.NextBool(2))
             {
-                Dust d = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, 0f, 0f, 100, default, 1.3f);
+                Dust d = Dust.NewDustDirect(
+                    Projectile.position,
+                    Projectile.width,
+                    Projectile.height,
+                    DustID.Torch,
+                    0f,
+                    0f,
+                    100,
+                    default,
+                    1.3f
+                );
+                
                 d.noGravity = true;
                 d.velocity *= 0.3f; 
             }

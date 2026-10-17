@@ -36,7 +36,7 @@ namespace Legends.Content.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Swing; // The useStyle of the Item.
             Item.useTime = 50; // The time span of using the weapon. Remember in terraria, 60 frames is a second.
             Item.useAnimation = 50; // The time span of the using animation of the weapon
-            Item.autoReuse = true; // Significa que o item pode ser usado continuamente ao segurar o botão de uso.
+            Item.autoReuse = false; // Significa que o item pode ser usado continuamente ao segurar o botão de uso.
 
             // DAMAGE VALUES
             Item.DamageType = DamageClass.Melee; // Sets the damage type to melee.
@@ -90,7 +90,7 @@ namespace Legends.Content.Items.Weapons.Melee
 
             // Fogo: menos partículas, menores e com tamanhos variados.
             //mudar numero para aumentar densidade
-            int fireCount = swingProgress < 0.25f ? 3 : 5;
+            int fireCount = swingProgress < 0.25f ? 5 : 7;
 
             for (int i = 0; i < fireCount; i++)
             {
@@ -113,24 +113,25 @@ namespace Legends.Content.Items.Weapons.Melee
                     0f,
                     1f
                 );
-
+    
                 // A ponta tem partículas maiores, mas sem exagero.
                 float scale = MathHelper.Lerp(
-                    0.75f,
+                    1.25f,
                     1.75f,
                     progress
-                ) * Main.rand.NextFloat(0.9f, 1.4f);
+                ) * Main.rand.NextFloat(1.0f, 1.4f);
 
                 int index = Dust.NewDust(
                     position,
                     1, 1,
                     DustID.Torch,
-                    Main.rand.NextFloat(-0.5f, 0.5f),
-                    Main.rand.NextFloat(-0.5f, 0.5f),
+                    Main.rand.NextFloat(0.1f, 0.7f),
+                    Main.rand.NextFloat(0.1f, 0.7f),
                     120,
                     default,
                     scale
                 );
+
 
                 Dust fire = Main.dust[index];
                 fire.noGravity = true;
