@@ -3,14 +3,19 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
-using Humanizer.Localisation.Formatters;
-using Terraria.Utilities.Terraria.Utilities;
+using Terraria.DataStructures;
+using Legends.Content.Projectiles;
 
 
 namespace Legends.Content.Items.Weapons.Melee
 {
     internal class SunbeamSword : ModItem
     {
+
+        public int attackType = 0; // keeps track of which attack it is
+		public int comboExpireTimer = 0; // we want the attack pattern to reset if the weapon is not used for certain period of time
+
+
         public override void SetStaticDefaults()
         {   
             // Não funciona mais na versão 1.14:
@@ -52,135 +57,33 @@ namespace Legends.Content.Items.Weapons.Melee
             // ITEM RARE = -1 PIOR A 11 MELHOR
             // ITENS -11, -12 E -13 SÃO PARA ITENS DE QUEST, EXPERT MODE, MASTER MODE RESPECTIVAMENTES.
 
+            
             //SOUND
             Item.UseSound = SoundID.Item1;
+
+            Item.noMelee = true;       // o dano agora vem do projétil
+            Item.noUseGraphic = true;  // o projétil desenha a espada
+            Item.shootSpeed = 1f;
+            Item.shoot = ModContent.ProjectileType<SunbeamSwordSwing>();
         }   
 
-        //efeito ao girar espada
-        public override void MeleeEffects(Player player, Rectangle hitbox)
-        {   
-            if (player.itemAnimationMax <= 0)
-                return;
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
+			// Using the shoot function, we override the swing projectile to set ai[0] (which attack it is)
+			Projectile.NewProjectile(source, position, velocity, type, damage, knockback, Main.myPlayer, attackType);
+			attackType = (attackType + 1) % 2; // Increment attackType to make sure next swing is different
+			comboExpireTimer = 0; // Every time the weapon is used, we reset this so the combo does not expire
+			return false; // return false to prevent original projectile from being shot
+		}
 
-            // Progresso aproximado da animação: 0 = início, 1 = final.
-            float swingProgress = 1f -
-                player.itemAnimation / (float)player.itemAnimationMax;
+        public override void UpdateInventory(Player player) {
+			if (comboExpireTimer++ >= 120) // after 120 ticks (== 2 seconds) in inventory, reset the attack pattern
+				attackType = 0;
+		}
 
-            swingProgress = MathHelper.Clamp(swingProgress, 0f, 1f);
+        public override bool MeleePrefix() {
+			return true; // return true to allow weapon to have melee prefixes (e.g. Legendary)
+		}
 
-            Vector2 handPosition = player.RotatedRelativePoint(
-                player.MountedCenter,
-                true
-            );
-
-            float maxDistance = new Vector2(
-                hitbox.Width,
-                hitbox.Height
-            ).Length();
-
-            if (maxDistance <= 0f)
-                return;
-
-            // Começa próximo à ponta e expande em direção à mão.
-            float minDistance = MathHelper.Lerp(
-                0.75f,
-                0.10f,
-                swingProgress
-            ) * maxDistance;
-
-            // Fogo: menos partículas, menores e com tamanhos variados.
-            //mudar numero para aumentar densidade
-            int fireCount = swingProgress < 0.25f ? 5 : 7;
-
-            for (int i = 0; i < fireCount; i++)
-            {
-                Vector2 position = new Vector2(
-                    Main.rand.NextFloat(hitbox.Left, hitbox.Right),
-                    Main.rand.NextFloat(hitbox.Top, hitbox.Bottom)
-                );
-
-                float distance = Vector2.Distance(
-                    handPosition,
-                    position
-                );
-
-                // Não gera fogo na região que ainda não foi alcançada.
-                if (distance < minDistance)
-                    continue;
-
-                float progress = MathHelper.Clamp(
-                    distance / maxDistance,
-                    0f,
-                    1f
-                );
-    
-                // A ponta tem partículas maiores, mas sem exagero.
-                float scale = MathHelper.Lerp(
-                    1.25f,
-                    1.75f,
-                    progress
-                ) * Main.rand.NextFloat(1.0f, 1.4f);
-
-                int index = Dust.NewDust(
-                    position,
-                    1, 1,
-                    DustID.Torch,
-                    Main.rand.NextFloat(0.1f, 0.7f),
-                    Main.rand.NextFloat(0.1f, 0.7f),
-                    120,
-                    default,
-                    scale
-                );
-
-
-                Dust fire = Main.dust[index];
-                fire.noGravity = true;
-                fire.velocity *= 0.25f;
-            }
-
-            // 4. FAGULHAS QUE SOBEM APENAS DA PARTE DISTANTE (Metade final da lâmina)
-            if (Main.rand.NextBool(2))
-            {
-                float randomX = Main.rand.Next(hitbox.X, hitbox.X + hitbox.Width);
-                float randomY = Main.rand.Next(hitbox.Y, hitbox.Y + hitbox.Height);
-                Vector2 sparkPosition = new Vector2(randomX, randomY);
-
-                // Só cria a fagulha se ela nascer longe da mão do jogador (na metade externa da espada)
-                if (Vector2.Distance(handPosition, sparkPosition) > (new Vector2(hitbox.Width, hitbox.Height).Length() * 0.5f))
-                {
-                    int sparkIndex = Dust.NewDust(
-                        sparkPosition, 
-                        3, 3, 
-                        DustID.CopperCoin, 
-                        Main.rand.NextFloat(-1f, 1f), 
-                        -1f, // Força a subida vertical como na foto original
-                        150, 
-                        default, 
-                        1.0f
-                    );
-
-                    Main.dust[sparkIndex].noGravity = false;
-                }
-            }
-
-        }
-
-
-        //efeito ao bater
-        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            for (int i = 0; i < 10; i++ )
-            {
-                Dust.NewDust(target.position, target.width, target.height, DustID.Torch, 0f, 0f, 150, default, 1.7f);
-                // t_Meteor
-                // Firefly
-                // FlameBurst
-                // Lava
-            }
-
-            target.AddBuff(BuffID.OnFire, 300);
-            // 300 significa 300 ticks = 5 segundos
-        }
 
 
         public override void AddRecipes()

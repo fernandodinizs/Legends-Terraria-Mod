@@ -18,4 +18,8 @@ Items: {
 	}
 }
 
-Projectiles.SunbeamProjectile.DisplayName: Sunbeam Projectile
+Projectiles: {
+	SunbeamProjectile.DisplayName: Sunbeam Projectile
+	ExampleCustomSwingProjectile.DisplayName: Example Custom Swing Projectile
+	SunbeamSwordSwing.DisplayName: Sunbeam Sword Swing
+}
