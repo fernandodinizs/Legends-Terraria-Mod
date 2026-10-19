@@ -16,10 +16,16 @@ Items: {
 		DisplayName: Sunbeam Projectile
 		Tooltip: A powerful Projectile
 	}
+
+	SunbeamStaff: {
+		DisplayName: Sunbeam Staff
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
 	SunbeamProjectile.DisplayName: Sunbeam Projectile
 	ExampleCustomSwingProjectile.DisplayName: Example Custom Swing Projectile
 	SunbeamSwordSwing.DisplayName: Sunbeam Sword Swing
+	SunbeamStaffProjectile.DisplayName: Sunbeam Staff Projectile
 }

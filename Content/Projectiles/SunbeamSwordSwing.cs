@@ -15,7 +15,7 @@ Duração: vem do useAnimation do item (50), então o golpe continua lento. Valo
 
 namespace Legends.Content.Items.Weapons.Melee
 {
-    public class SunbeamSwordSwing : ModProjectile
+    internal class SunbeamSwordSwing : ModProjectile
     {
         // Usa a mesma textura da espada
         public override string Texture => "Legends/Content/Items/Weapons/Melee/SunbeamSword";

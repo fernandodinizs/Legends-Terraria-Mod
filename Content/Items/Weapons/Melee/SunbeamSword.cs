@@ -4,7 +4,6 @@ using Terraria.ID;
 using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
-using Legends.Content.Projectiles;
 
 
 namespace Legends.Content.Items.Weapons.Melee
@@ -80,16 +79,16 @@ namespace Legends.Content.Items.Weapons.Melee
 				attackType = 0;
 		}
 
+
         public override bool MeleePrefix() {
 			return true; // return true to allow weapon to have melee prefixes (e.g. Legendary)
 		}
 
 
-
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ModContent.ItemType<Sunbeams>(), 8)
+                .AddIngredient(ModContent.ItemType<Sunbeams>(), 17)
                 .AddTile(TileID.Anvils)
                 .Register();
         }
