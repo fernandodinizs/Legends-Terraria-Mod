@@ -4,15 +4,19 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Legends.Content.Projectiles;
+using Terraria;
 
 namespace Legends.Content.Items.Weapons.Mage
 {
+    public class SunbeamStaff : ModItem
+    {
 
-public class SunbeamStaff : ModItem
-{
-    public override void SetStaticDefaults()
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 2;
+
+        public override void SetStaticDefaults()
         {   
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            Item.staff[Type] = true;
         }
 
         public override void SetDefaults()
@@ -21,29 +25,27 @@ public class SunbeamStaff : ModItem
            Item.scale = 1f;
 
            Item.useStyle = ItemUseStyleID.Shoot;
-           Item.useAnimation = 60;
-           Item.useStyle = 60;
+           Item.useAnimation = 35;
+           Item.useTime = 35;
 
            Item.DamageType = DamageClass.Magic;
-           Item.damage = 50;
+           Item.damage = 32;
            Item.knockBack = 2.0f;
            Item.mana = 10;
+           Item.autoReuse = true;
 
            Item.shoot =  ModContent.ProjectileType<SunbeamStaffProjectile>();
            Item.shootSpeed = 2f;
 
            Item.UseSound = SoundID.Item71;
 
-           Item.rare = ItemRarityID.Orange;
+           Item.rare = ItemRarityID.Red;
 
            Item.noMelee = true;
-           Item.noUseGraphic = true;
-           Item.channel = true;
-           
         }
 
 
-    public override void AddRecipes()
+        public override void AddRecipes()
         {
             CreateRecipe()
                 .AddIngredient(ModContent.ItemType<Sunbeams>(), 17)
@@ -52,6 +54,6 @@ public class SunbeamStaff : ModItem
         }
 
 
-}
+    }
 
 }

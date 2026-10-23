@@ -25,7 +25,6 @@ Items: {
 
 Projectiles: {
 	SunbeamProjectile.DisplayName: Sunbeam Projectile
-	ExampleCustomSwingProjectile.DisplayName: Example Custom Swing Projectile
 	SunbeamSwordSwing.DisplayName: Sunbeam Sword Swing
 	SunbeamStaffProjectile.DisplayName: Sunbeam Staff Projectile
 }
